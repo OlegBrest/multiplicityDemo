@@ -17,5 +17,17 @@
     <Setting Name="Ystart" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
+    <Setting Name="Speed" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="Steps" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="LSysAngle" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">60</Value>
+    </Setting>
+    <Setting Name="LsysAxioma" Type="System.String" Scope="User">
+      <Value Profile="(Default)">F+F--F+F</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
