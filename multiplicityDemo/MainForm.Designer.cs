@@ -319,7 +319,7 @@ namespace multiplicityDemo
             this.sizeXNumericUpDown.Size = new System.Drawing.Size(105, 20);
             this.sizeXNumericUpDown.TabIndex = 4;
             this.sizeXNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.sizeXNumericUpDown.Value = global::multiplicityDemo.Properties.Settings.Default.XSize;
+            this.sizeXNumericUpDown.Value = global::multiplicityDemo.Properties.Settings.Default.Xsize;
             this.sizeXNumericUpDown.ValueChanged += new System.EventHandler(this.NumericUpDown_ValueChanged);
             // 
             // lineLenghtNumericUpDown

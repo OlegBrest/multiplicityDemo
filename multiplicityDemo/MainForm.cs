@@ -23,6 +23,13 @@ namespace multiplicityDemo
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            Properties.Settings.Default.Xsize = (int)sizeXNumericUpDown.Value;
+            Properties.Settings.Default.Ysize = (int)sizeYNumericUpDown.Value;
+            Properties.Settings.Default.Xstart = (int)startXnumericUpDown.Value;
+            Properties.Settings.Default.Ystart = (int)startYnumericUpDown.Value;
+            Properties.Settings.Default.LineLenght = (int)lineLenghtNumericUpDown.Value;
+            Properties.Settings.Default.Save();
+
             if (typeComboBox.Text == "Koch curve")
             {
                 Koch();

@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="multiplicityDemo.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="XSize" Type="System.Decimal" Scope="User">
+    <Setting Name="Xsize" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Ysize" Type="System.Decimal" Scope="User">
