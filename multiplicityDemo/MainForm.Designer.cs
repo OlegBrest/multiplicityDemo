@@ -67,6 +67,12 @@ namespace multiplicityDemo
             this.LsysAxiomtextBox = new System.Windows.Forms.TextBox();
             this.stepsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
+            this.Julia_tab = new System.Windows.Forms.TabPage();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.xMaxNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.yMaxNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.yMinNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.xMinNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -90,6 +96,12 @@ namespace multiplicityDemo
             this.Lsyspanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LsysAngelNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepsNumericUpDown)).BeginInit();
+            this.Julia_tab.SuspendLayout();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.xMaxNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yMaxNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yMinNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xMinNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // BottomToolStripPanel
@@ -143,7 +155,7 @@ namespace multiplicityDemo
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.panel1);
-            this.splitContainer1.Size = new System.Drawing.Size(827, 488);
+            this.splitContainer1.Size = new System.Drawing.Size(827, 470);
             this.splitContainer1.SplitterDistance = 137;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -171,7 +183,7 @@ namespace multiplicityDemo
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(137, 488);
+            this.panel2.Size = new System.Drawing.Size(137, 470);
             this.panel2.TabIndex = 0;
             // 
             // speedNumericUpDown
@@ -392,7 +404,8 @@ namespace multiplicityDemo
             "Koch curve",
             "Koch triangle right",
             "Koch triangle left",
-            "Koch L-sys"});
+            "Koch L-sys",
+            "Julia"});
             this.typeComboBox.Location = new System.Drawing.Point(3, 25);
             this.typeComboBox.Name = "typeComboBox";
             this.typeComboBox.Size = new System.Drawing.Size(134, 21);
@@ -403,7 +416,7 @@ namespace multiplicityDemo
             // startButton
             // 
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.startButton.Location = new System.Drawing.Point(3, 451);
+            this.startButton.Location = new System.Drawing.Point(3, 433);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(131, 34);
             this.startButton.TabIndex = 0;
@@ -414,19 +427,19 @@ namespace multiplicityDemo
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.AutoSize = true;
+            this.panel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel1.Controls.Add(this.pictureBox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(686, 488);
+            this.panel1.Size = new System.Drawing.Size(686, 470);
             this.panel1.TabIndex = 0;
             // 
             // pictureBox
             // 
             this.pictureBox.Location = new System.Drawing.Point(12, 12);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(653, 444);
+            this.pictureBox.Size = new System.Drawing.Size(662, 444);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
@@ -456,17 +469,18 @@ namespace multiplicityDemo
             // 
             this.splitContainer2.Panel2.Controls.Add(this.tabControl);
             this.splitContainer2.Size = new System.Drawing.Size(827, 591);
-            this.splitContainer2.SplitterDistance = 488;
+            this.splitContainer2.SplitterDistance = 470;
             this.splitContainer2.TabIndex = 5;
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.L_sys_Tab);
+            this.tabControl.Controls.Add(this.Julia_tab);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(827, 99);
+            this.tabControl.Size = new System.Drawing.Size(827, 117);
             this.tabControl.TabIndex = 0;
             // 
             // L_sys_Tab
@@ -550,6 +564,141 @@ namespace multiplicityDemo
             this.label12.TabIndex = 3;
             this.label12.Text = "Axiom";
             // 
+            // Julia_tab
+            // 
+            this.Julia_tab.Controls.Add(this.panel3);
+            this.Julia_tab.Location = new System.Drawing.Point(4, 22);
+            this.Julia_tab.Name = "Julia_tab";
+            this.Julia_tab.Padding = new System.Windows.Forms.Padding(3);
+            this.Julia_tab.Size = new System.Drawing.Size(819, 91);
+            this.Julia_tab.TabIndex = 1;
+            this.Julia_tab.Text = "Julia";
+            this.Julia_tab.UseVisualStyleBackColor = true;
+            // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.xMinNumericUpDown);
+            this.panel3.Controls.Add(this.yMinNumericUpDown);
+            this.panel3.Controls.Add(this.yMaxNumericUpDown);
+            this.panel3.Controls.Add(this.xMaxNumericUpDown);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(813, 85);
+            this.panel3.TabIndex = 0;
+            // 
+            // xMaxNumericUpDown
+            // 
+            this.xMaxNumericUpDown.DecimalPlaces = 10;
+            this.xMaxNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            327680});
+            this.xMaxNumericUpDown.Location = new System.Drawing.Point(117, 29);
+            this.xMaxNumericUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.xMaxNumericUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147483648});
+            this.xMaxNumericUpDown.Name = "xMaxNumericUpDown";
+            this.xMaxNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.xMaxNumericUpDown.TabIndex = 0;
+            this.xMaxNumericUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // yMaxNumericUpDown
+            // 
+            this.yMaxNumericUpDown.DecimalPlaces = 10;
+            this.yMaxNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            327680});
+            this.yMaxNumericUpDown.Location = new System.Drawing.Point(65, 3);
+            this.yMaxNumericUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.yMaxNumericUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147483648});
+            this.yMaxNumericUpDown.Name = "yMaxNumericUpDown";
+            this.yMaxNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.yMaxNumericUpDown.TabIndex = 0;
+            this.yMaxNumericUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // yMinNumericUpDown
+            // 
+            this.yMinNumericUpDown.DecimalPlaces = 10;
+            this.yMinNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            327680});
+            this.yMinNumericUpDown.Location = new System.Drawing.Point(65, 55);
+            this.yMinNumericUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.yMinNumericUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147483648});
+            this.yMinNumericUpDown.Name = "yMinNumericUpDown";
+            this.yMinNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.yMinNumericUpDown.TabIndex = 0;
+            this.yMinNumericUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147483648});
+            // 
+            // xMinNumericUpDown
+            // 
+            this.xMinNumericUpDown.DecimalPlaces = 10;
+            this.xMinNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            327680});
+            this.xMinNumericUpDown.Location = new System.Drawing.Point(5, 29);
+            this.xMinNumericUpDown.Maximum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.xMinNumericUpDown.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147483648});
+            this.xMinNumericUpDown.Name = "xMinNumericUpDown";
+            this.xMinNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.xMinNumericUpDown.TabIndex = 0;
+            this.xMinNumericUpDown.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            -2147483648});
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -560,7 +709,6 @@ namespace multiplicityDemo
             this.Text = "Multiplicity Demo";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
@@ -585,6 +733,12 @@ namespace multiplicityDemo
             this.Lsyspanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.LsysAngelNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stepsNumericUpDown)).EndInit();
+            this.Julia_tab.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.xMaxNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yMaxNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.yMinNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.xMinNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -629,6 +783,12 @@ namespace multiplicityDemo
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.NumericUpDown LsysAngelNumericUpDown;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TabPage Julia_tab;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.NumericUpDown xMinNumericUpDown;
+        private System.Windows.Forms.NumericUpDown yMinNumericUpDown;
+        private System.Windows.Forms.NumericUpDown yMaxNumericUpDown;
+        private System.Windows.Forms.NumericUpDown xMaxNumericUpDown;
     }
 }
 

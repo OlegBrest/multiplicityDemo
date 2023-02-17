@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,8 +37,9 @@ namespace multiplicityDemo
             Properties.Settings.Default.LsysAxioma = LsysAxiomtextBox.Text;
             Properties.Settings.Default.Save();
 
+            pictureBox.Image = null;
             workingBitmap = new Bitmap((int)sizeXNumericUpDown.Value, (int)sizeYNumericUpDown.Value);
-            pictureBox.Image = workingBitmap;
+            //pictureBox.Image = workingBitmap;
             turtle = new TurtleSharp(workingBitmap);
             turtle.LineIsDone += Turtle_LineIsDone;
             turtle.magnification = (double)magnNumericUpDown.Value;
@@ -68,7 +70,10 @@ namespace multiplicityDemo
             {
                 trd.Start("l-sys");
             }
-
+            if (typeComboBox.Text == "Julia")
+            {
+                trd.Start("Julia");
+            }
         }
 
         private void Threader(object objtype)
@@ -110,8 +115,88 @@ namespace multiplicityDemo
                 l_sys.gen_path((int)stepsNumericUpDown.Value);
                 l_sys.draw_turtle((int)startXnumericUpDown.Value, (int)startYnumericUpDown.Value, 0);
             }
+            else if (type == "Julia")
+            {
+                int iters = 100;
+                decimal minX = xMinNumericUpDown.Value;
+                decimal maxX = xMaxNumericUpDown.Value;
+                decimal minY = yMinNumericUpDown.Value;
+                decimal maxY = yMaxNumericUpDown.Value;
+
+                decimal xLenght = maxX - minX;
+                decimal yLenght = maxY - minY;
+
+                int xPicMax = (int)sizeXNumericUpDown.Value;
+                int yPicMax = (int)sizeYNumericUpDown.Value;
+
+                decimal pic2XMult = (decimal)xPicMax / xLenght;
+                decimal pic2YMult = (decimal)yPicMax / yLenght;
+
+                decimal middleX = (minX + maxX) / 2;
+                decimal middleY = (minY + maxY) / 2;
+
+                Point picCenter = new Point((xPicMax / 2 + (int)(middleX * pic2XMult)), (yPicMax / 2 + (int)(middleY * pic2YMult)));
+
+                Complex z = new Complex();
+                //Complex c = new Complex(-0.2, 0.75);
+                Complex c = new Complex(-0.21, 0.8);
+
+                Pen drawingPen = new Pen(Color.Black, 1);
+
+                byte[] pictArray = ImageWrapper.ImageToArray(workingBitmap, yPicMax, xPicMax);
+
+                for (int picY = 0; picY < yPicMax; picY++)
+                //Parallel.For(0, yPicMax, picY =>
+                {
+                    //for (int picX = 0; picX < xPicMax; picX++)
+                        Parallel.For(0, xPicMax, picX =>
+                        {
+                            lock (pictArray)
+                            {
+                                decimal decX = ((decimal)(picX - picCenter.X)) / pic2XMult;
+                                decimal decY = ((decimal)(picY - picCenter.Y)) / pic2YMult;
+                                z = new Complex((double)decX, (double)decY);
+                                int n = 0;
+                                for (n = 0; n <= iters; n++)
+                                {
+                                    z = z * z + c;
+                                    if (z.Magnitude > 2)
+                                    {
+                                        break;
+                                    }
+                                }
+                                if (n >= (iters - 1))
+                                {
+                                    byte medclr = 0; //(int)( 255 - (255 * z.Magnitude / 2));
+                                                     //Color clr = Color.FromArgb(255, medclr, medclr, medclr);
+                                                     //workingBitmap.SetPixel(picX, picY, clr);
+                                    pictArray[0 + picY * xPicMax * 3 + picX * 3] = medclr;
+                                    pictArray[1 + picY * xPicMax * 3 + picX * 3] = medclr;
+                                    pictArray[2 + picY * xPicMax * 3 + picX * 3] = medclr;
+                                }
+                                else
+                                {
+                                    byte r = (byte)(255 - n % 18 * 12);
+                                    byte g = (byte)(255 - n % 13 * 16);
+                                    byte b = (byte)(255 - n % 7 * 33);
+                                    if (r < 0) r = 0;
+                                    if (g < 0) g = 0;
+                                    if (b < 0) b = 0;
+                                    /*Color clr = Color.FromArgb(255, r, g, b);
+                                    workingBitmap.SetPixel(picX, picY, clr);*/
+                                    pictArray[0 + picY * xPicMax * 3 + picX * 3] = b;
+                                    pictArray[1 + picY * xPicMax * 3 + picX * 3] = g;
+                                    pictArray[2 + picY * xPicMax * 3 + picX * 3] = r;
+                                }
+                            }
+                    });
+                }//);
+
+                workingBitmap = ImageWrapper.ArrayToImage(workingBitmap, pictArray, yPicMax, xPicMax);
+            }
             Turtle_LineIsDone();
         }
+
         private void KochSegment(int line)
         {
             if (line > 6)
@@ -167,6 +252,11 @@ namespace multiplicityDemo
             {
                 Lsyspanel.Enabled = true;
                 tabControl.SelectTab(L_sys_Tab);
+            }
+            else if (typeComboBox.Text == "Julia")
+            {
+                Lsyspanel.Enabled = true;
+                tabControl.SelectTab(Julia_tab);
             }
             else
             {
