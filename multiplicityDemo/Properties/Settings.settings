@@ -29,5 +29,20 @@
     <Setting Name="LsysAxioma" Type="System.String" Scope="User">
       <Value Profile="(Default)">F+F--F+F</Value>
     </Setting>
+    <Setting Name="MuliType" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Koch curve</Value>
+    </Setting>
+    <Setting Name="RealJylia" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">-0.25</Value>
+    </Setting>
+    <Setting Name="ImagJulia" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0.75</Value>
+    </Setting>
+    <Setting Name="AutoStart" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SelectedTab" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

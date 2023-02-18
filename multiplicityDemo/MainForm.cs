@@ -17,6 +17,8 @@ namespace multiplicityDemo
         Bitmap workingBitmap;
         TurtleSharp turtle;
         LSystem2D l_sys;
+        bool isAutoStarted = false;
+        bool isdrawingComlete = true;
         public MainForm()
         {
             InitializeComponent();
@@ -24,55 +26,65 @@ namespace multiplicityDemo
             turtle = new TurtleSharp(workingBitmap);
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void startButton_Click(object sender = null, EventArgs e = null)
         {
-            Properties.Settings.Default.Xsize = sizeXNumericUpDown.Value;
-            Properties.Settings.Default.Ysize = sizeYNumericUpDown.Value;
-            Properties.Settings.Default.Xstart = startXnumericUpDown.Value;
-            Properties.Settings.Default.Ystart = startYnumericUpDown.Value;
-            Properties.Settings.Default.LineLenght = lineLenghtNumericUpDown.Value;
-            Properties.Settings.Default.Speed = speedNumericUpDown.Value;
-            Properties.Settings.Default.Steps = stepsNumericUpDown.Value;
-            Properties.Settings.Default.LSysAngle = LsysAngelNumericUpDown.Value;
-            Properties.Settings.Default.LsysAxioma = LsysAxiomtextBox.Text;
-            Properties.Settings.Default.Save();
-
-            pictureBox.Image = null;
-            workingBitmap = new Bitmap((int)sizeXNumericUpDown.Value, (int)sizeYNumericUpDown.Value);
-            //pictureBox.Image = workingBitmap;
-            turtle = new TurtleSharp(workingBitmap);
-            turtle.LineIsDone += Turtle_LineIsDone;
-            turtle.magnification = (double)magnNumericUpDown.Value;
-            turtle.speed((int)speedNumericUpDown.Value);
-            turtle.MoveToPoint((double)startXnumericUpDown.Value, (double)startYnumericUpDown.Value);
-            turtle.Down();
-
-            Thread trd = new Thread(Threader);
-
-
-            if (typeComboBox.Text == "Koch curve")
+            if (isdrawingComlete)
             {
-                trd.Start();
-                //Koch();
-            }
-            if (typeComboBox.Text == "Koch triangle right")
-            {
-                trd.Start("right");
-                //Koch("right");
-            }
+                isdrawingComlete = false;
+                if (!isAutoStarted)
+                {
+                    Properties.Settings.Default.Xsize = sizeXNumericUpDown.Value;
+                    Properties.Settings.Default.Ysize = sizeYNumericUpDown.Value;
+                    Properties.Settings.Default.Xstart = startXnumericUpDown.Value;
+                    Properties.Settings.Default.Ystart = startYnumericUpDown.Value;
+                    Properties.Settings.Default.LineLenght = lineLenghtNumericUpDown.Value;
+                    Properties.Settings.Default.Speed = speedNumericUpDown.Value;
+                    Properties.Settings.Default.Steps = stepsNumericUpDown.Value;
+                    Properties.Settings.Default.LSysAngle = LsysAngelNumericUpDown.Value;
+                    Properties.Settings.Default.LsysAxioma = LsysAxiomtextBox.Text;
+                    Properties.Settings.Default.MuliType = typeComboBox.Text;
+                    Properties.Settings.Default.RealJylia = realNumericUpDown.Value;
+                    Properties.Settings.Default.ImagJulia = imaginaryNumericUpDown.Value;
+                    Properties.Settings.Default.AutoStart = autoStartCheckBox.Checked;
+                    Properties.Settings.Default.SelectedTab = tabControl.SelectedIndex;
+                    Properties.Settings.Default.Save();
+                }
+                //pictureBox.Image = null;
+                workingBitmap = new Bitmap((int)sizeXNumericUpDown.Value, (int)sizeYNumericUpDown.Value);
+                //pictureBox.Image = workingBitmap;
+                turtle = new TurtleSharp(workingBitmap);
+                turtle.LineIsDone += Turtle_LineIsDone;
+                turtle.magnification = (double)magnNumericUpDown.Value;
+                turtle.speed((int)speedNumericUpDown.Value);
+                turtle.MoveToPoint((double)startXnumericUpDown.Value, (double)startYnumericUpDown.Value);
+                turtle.Down();
 
-            if (typeComboBox.Text == "Koch triangle left")
-            {
-                trd.Start("left");
-                //Koch("left");
-            }
-            if (typeComboBox.Text == "Koch L-sys")
-            {
-                trd.Start("l-sys");
-            }
-            if (typeComboBox.Text == "Julia")
-            {
-                trd.Start("Julia");
+                Thread trd = new Thread(Threader);
+
+                if (typeComboBox.Text == "Koch curve")
+                {
+                    trd.Start();
+                    //Koch();
+                }
+                if (typeComboBox.Text == "Koch triangle right")
+                {
+                    trd.Start("right");
+                    //Koch("right");
+                }
+
+                if (typeComboBox.Text == "Koch triangle left")
+                {
+                    trd.Start("left");
+                    //Koch("left");
+                }
+                if (typeComboBox.Text == "Koch L-sys")
+                {
+                    trd.Start("l-sys");
+                }
+                if (typeComboBox.Text == "Julia")
+                {
+                    trd.Start("Julia");
+                }
             }
         }
 
@@ -139,7 +151,7 @@ namespace multiplicityDemo
 
                 Complex z = new Complex();
                 //Complex c = new Complex(-0.2, 0.75);
-                Complex c = new Complex(-0.21, 0.8);
+                Complex c = new Complex((double)realNumericUpDown.Value, (double)imaginaryNumericUpDown.Value);
 
                 Pen drawingPen = new Pen(Color.Black, 1);
 
@@ -149,46 +161,46 @@ namespace multiplicityDemo
                 //Parallel.For(0, yPicMax, picY =>
                 {
                     //for (int picX = 0; picX < xPicMax; picX++)
-                        Parallel.For(0, xPicMax, picX =>
+                    Parallel.For(0, xPicMax, picX =>
+                    {
+                        lock (pictArray)
                         {
-                            lock (pictArray)
+                            decimal decX = ((decimal)(picX - picCenter.X)) / pic2XMult;
+                            decimal decY = ((decimal)(picY - picCenter.Y)) / pic2YMult;
+                            z = new Complex((double)decX, (double)decY);
+                            int n = 0;
+                            for (n = 0; n <= iters; n++)
                             {
-                                decimal decX = ((decimal)(picX - picCenter.X)) / pic2XMult;
-                                decimal decY = ((decimal)(picY - picCenter.Y)) / pic2YMult;
-                                z = new Complex((double)decX, (double)decY);
-                                int n = 0;
-                                for (n = 0; n <= iters; n++)
+                                z =  z * z + c + c*c; // formula for drawing default (z * z + c)
+                                if (z.Magnitude > 2)
                                 {
-                                    z = z * z + c;
-                                    if (z.Magnitude > 2)
-                                    {
-                                        break;
-                                    }
-                                }
-                                if (n >= (iters - 1))
-                                {
-                                    byte medclr = 0; //(int)( 255 - (255 * z.Magnitude / 2));
-                                                     //Color clr = Color.FromArgb(255, medclr, medclr, medclr);
-                                                     //workingBitmap.SetPixel(picX, picY, clr);
-                                    pictArray[0 + picY * xPicMax * 3 + picX * 3] = medclr;
-                                    pictArray[1 + picY * xPicMax * 3 + picX * 3] = medclr;
-                                    pictArray[2 + picY * xPicMax * 3 + picX * 3] = medclr;
-                                }
-                                else
-                                {
-                                    byte r = (byte)(255 - n % 18 * 12);
-                                    byte g = (byte)(255 - n % 13 * 16);
-                                    byte b = (byte)(255 - n % 7 * 33);
-                                    if (r < 0) r = 0;
-                                    if (g < 0) g = 0;
-                                    if (b < 0) b = 0;
-                                    /*Color clr = Color.FromArgb(255, r, g, b);
-                                    workingBitmap.SetPixel(picX, picY, clr);*/
-                                    pictArray[0 + picY * xPicMax * 3 + picX * 3] = b;
-                                    pictArray[1 + picY * xPicMax * 3 + picX * 3] = g;
-                                    pictArray[2 + picY * xPicMax * 3 + picX * 3] = r;
+                                    break;
                                 }
                             }
+                            if (n >= (iters - 1))
+                            {
+                                byte medclr = 0; //(int)( 255 - (255 * z.Magnitude / 2));
+                                                 //Color clr = Color.FromArgb(255, medclr, medclr, medclr);
+                                                 //workingBitmap.SetPixel(picX, picY, clr);
+                                pictArray[0 + picY * xPicMax * 3 + picX * 3] = medclr;
+                                pictArray[1 + picY * xPicMax * 3 + picX * 3] = medclr;
+                                pictArray[2 + picY * xPicMax * 3 + picX * 3] = medclr;
+                            }
+                            else
+                            {
+                                byte r = (byte)(255 - n % 18 * 12);
+                                byte g = (byte)(255 - n % 13 * 16);
+                                byte b = (byte)(255 - n % 7 * 33);
+                                if (r < 0) r = 0;
+                                if (g < 0) g = 0;
+                                if (b < 0) b = 0;
+                                /*Color clr = Color.FromArgb(255, r, g, b);
+                                workingBitmap.SetPixel(picX, picY, clr);*/
+                                pictArray[0 + picY * xPicMax * 3 + picX * 3] = b;
+                                pictArray[1 + picY * xPicMax * 3 + picX * 3] = g;
+                                pictArray[2 + picY * xPicMax * 3 + picX * 3] = r;
+                            }
+                        }
                     });
                 }//);
 
@@ -239,6 +251,7 @@ namespace multiplicityDemo
                 pictureBox.Image = workingBitmap;
                 pictureBox.Refresh();
             }
+            isdrawingComlete = true;
         }
 
         private void NumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -261,6 +274,18 @@ namespace multiplicityDemo
             else
             {
                 Lsyspanel.Enabled = false;
+            }
+        }
+
+        private void ComplexNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (!isAutoStarted)
+            {
+                isAutoStarted = true;
+                Complex c = new Complex((double)realNumericUpDown.Value, (double)imaginaryNumericUpDown.Value);
+                comlexModuleLabel.Text = "Complexmodule =" + c.Magnitude.ToString();
+                if (autoStartCheckBox.Checked) startButton_Click();
+                isAutoStarted = false;
             }
         }
     }
