@@ -36,6 +36,9 @@ namespace multiplicityDemo
             this.ContentPanel = new System.Windows.Forms.ToolStripContentPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.saveFileQualityNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.speedNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.startYnumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.sizeYNumericUpDown = new System.Windows.Forms.NumericUpDown();
@@ -55,9 +58,9 @@ namespace multiplicityDemo
             this.label1 = new System.Windows.Forms.Label();
             this.typeComboBox = new System.Windows.Forms.ComboBox();
             this.startButton = new System.Windows.Forms.Button();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.L_sys_Tab = new System.Windows.Forms.TabPage();
@@ -67,6 +70,7 @@ namespace multiplicityDemo
             this.LsysAxiomtextBox = new System.Windows.Forms.TextBox();
             this.stepsNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.Julia_tab = new System.Windows.Forms.TabPage();
             this.panel3 = new System.Windows.Forms.Panel();
             this.autoStartCheckBox = new System.Windows.Forms.CheckBox();
@@ -79,11 +83,13 @@ namespace multiplicityDemo
             this.yMinNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.yMaxNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.xMaxNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.saveFileQualityNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.startYnumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sizeYNumericUpDown)).BeginInit();
@@ -169,6 +175,9 @@ namespace multiplicityDemo
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label16);
+            this.panel2.Controls.Add(this.saveButton);
+            this.panel2.Controls.Add(this.saveFileQualityNumericUpDown);
             this.panel2.Controls.Add(this.speedNumericUpDown);
             this.panel2.Controls.Add(this.startYnumericUpDown);
             this.panel2.Controls.Add(this.sizeYNumericUpDown);
@@ -188,11 +197,50 @@ namespace multiplicityDemo
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.typeComboBox);
             this.panel2.Controls.Add(this.startButton);
+            this.panel2.Controls.Add(this.progressBar);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(137, 470);
             this.panel2.TabIndex = 0;
+            // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(29, 354);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(58, 13);
+            this.label16.TabIndex = 7;
+            this.label16.Text = "File Quality";
+            // 
+            // saveButton
+            // 
+            this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveButton.Location = new System.Drawing.Point(4, 378);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(131, 33);
+            this.saveButton.TabIndex = 5;
+            this.saveButton.Text = "Save Image";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // saveFileQualityNumericUpDown
+            // 
+            this.saveFileQualityNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.saveFileQualityNumericUpDown.DataBindings.Add(new System.Windows.Forms.Binding("Value", global::multiplicityDemo.Properties.Settings.Default, "SaveFileQuality", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.saveFileQualityNumericUpDown.Location = new System.Drawing.Point(87, 352);
+            this.saveFileQualityNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.saveFileQualityNumericUpDown.Name = "saveFileQualityNumericUpDown";
+            this.saveFileQualityNumericUpDown.Size = new System.Drawing.Size(47, 20);
+            this.saveFileQualityNumericUpDown.TabIndex = 4;
+            this.saveFileQualityNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.saveFileQualityNumericUpDown.Value = global::multiplicityDemo.Properties.Settings.Default.SaveFileQuality;
+            this.saveFileQualityNumericUpDown.ValueChanged += new System.EventHandler(this.NumericUpDown_ValueChanged);
             // 
             // speedNumericUpDown
             // 
@@ -414,7 +462,8 @@ namespace multiplicityDemo
             "Koch triangle right",
             "Koch triangle left",
             "Koch L-sys",
-            "Julia"});
+            "Julia",
+            "Mandel"});
             this.typeComboBox.Location = new System.Drawing.Point(3, 25);
             this.typeComboBox.Name = "typeComboBox";
             this.typeComboBox.Size = new System.Drawing.Size(134, 21);
@@ -425,13 +474,22 @@ namespace multiplicityDemo
             // startButton
             // 
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.startButton.Location = new System.Drawing.Point(3, 433);
+            this.startButton.BackColor = System.Drawing.Color.Transparent;
+            this.startButton.Location = new System.Drawing.Point(4, 434);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(131, 34);
             this.startButton.TabIndex = 0;
             this.startButton.Text = "Start";
-            this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.UseVisualStyleBackColor = false;
             this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.progressBar.Location = new System.Drawing.Point(5, 417);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(130, 10);
+            this.progressBar.TabIndex = 6;
             // 
             // panel1
             // 
@@ -452,15 +510,10 @@ namespace multiplicityDemo
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(5, 9);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(34, 13);
-            this.label11.TabIndex = 3;
-            this.label11.Text = "Steps";
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
+            this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
+            this.pictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseMove);
+            this.pictureBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseUp);
             // 
             // splitContainer2
             // 
@@ -574,6 +627,15 @@ namespace multiplicityDemo
             this.label12.TabIndex = 3;
             this.label12.Text = "Axiom";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(5, 9);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(34, 13);
+            this.label11.TabIndex = 3;
+            this.label11.Text = "Steps";
+            // 
             // Julia_tab
             // 
             this.Julia_tab.Controls.Add(this.panel3);
@@ -608,7 +670,7 @@ namespace multiplicityDemo
             this.autoStartCheckBox.AutoSize = true;
             this.autoStartCheckBox.Checked = global::multiplicityDemo.Properties.Settings.Default.AutoStart;
             this.autoStartCheckBox.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::multiplicityDemo.Properties.Settings.Default, "AutoStart", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
-            this.autoStartCheckBox.Location = new System.Drawing.Point(401, 31);
+            this.autoStartCheckBox.Location = new System.Drawing.Point(532, 29);
             this.autoStartCheckBox.Name = "autoStartCheckBox";
             this.autoStartCheckBox.Size = new System.Drawing.Size(73, 17);
             this.autoStartCheckBox.TabIndex = 4;
@@ -618,7 +680,7 @@ namespace multiplicityDemo
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(268, 31);
+            this.label15.Location = new System.Drawing.Point(399, 29);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(52, 13);
             this.label15.TabIndex = 3;
@@ -627,7 +689,7 @@ namespace multiplicityDemo
             // comlexModuleLabel
             // 
             this.comlexModuleLabel.AutoSize = true;
-            this.comlexModuleLabel.Location = new System.Drawing.Point(398, 4);
+            this.comlexModuleLabel.Location = new System.Drawing.Point(529, 2);
             this.comlexModuleLabel.Name = "comlexModuleLabel";
             this.comlexModuleLabel.Size = new System.Drawing.Size(90, 13);
             this.comlexModuleLabel.TabIndex = 2;
@@ -636,7 +698,7 @@ namespace multiplicityDemo
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(291, 4);
+            this.label14.Location = new System.Drawing.Point(422, 2);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(29, 13);
             this.label14.TabIndex = 2;
@@ -651,7 +713,7 @@ namespace multiplicityDemo
             0,
             0,
             262144});
-            this.imaginaryNumericUpDown.Location = new System.Drawing.Point(326, 29);
+            this.imaginaryNumericUpDown.Location = new System.Drawing.Point(457, 27);
             this.imaginaryNumericUpDown.Minimum = new decimal(new int[] {
             100,
             0,
@@ -672,7 +734,7 @@ namespace multiplicityDemo
             0,
             0,
             262144});
-            this.realNumericUpDown.Location = new System.Drawing.Point(326, 2);
+            this.realNumericUpDown.Location = new System.Drawing.Point(457, 0);
             this.realNumericUpDown.Minimum = new decimal(new int[] {
             100,
             0,
@@ -686,7 +748,7 @@ namespace multiplicityDemo
             // 
             // xMinNumericUpDown
             // 
-            this.xMinNumericUpDown.DecimalPlaces = 10;
+            this.xMinNumericUpDown.DecimalPlaces = 19;
             this.xMinNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -704,7 +766,7 @@ namespace multiplicityDemo
             0,
             -2147483648});
             this.xMinNumericUpDown.Name = "xMinNumericUpDown";
-            this.xMinNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.xMinNumericUpDown.Size = new System.Drawing.Size(150, 20);
             this.xMinNumericUpDown.TabIndex = 0;
             this.xMinNumericUpDown.Value = new decimal(new int[] {
             2,
@@ -714,7 +776,7 @@ namespace multiplicityDemo
             // 
             // yMinNumericUpDown
             // 
-            this.yMinNumericUpDown.DecimalPlaces = 10;
+            this.yMinNumericUpDown.DecimalPlaces = 19;
             this.yMinNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -732,7 +794,7 @@ namespace multiplicityDemo
             0,
             -2147483648});
             this.yMinNumericUpDown.Name = "yMinNumericUpDown";
-            this.yMinNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.yMinNumericUpDown.Size = new System.Drawing.Size(155, 20);
             this.yMinNumericUpDown.TabIndex = 0;
             this.yMinNumericUpDown.Value = new decimal(new int[] {
             2,
@@ -742,7 +804,7 @@ namespace multiplicityDemo
             // 
             // yMaxNumericUpDown
             // 
-            this.yMaxNumericUpDown.DecimalPlaces = 10;
+            this.yMaxNumericUpDown.DecimalPlaces = 19;
             this.yMaxNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
@@ -760,7 +822,7 @@ namespace multiplicityDemo
             0,
             -2147483648});
             this.yMaxNumericUpDown.Name = "yMaxNumericUpDown";
-            this.yMaxNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.yMaxNumericUpDown.Size = new System.Drawing.Size(155, 20);
             this.yMaxNumericUpDown.TabIndex = 0;
             this.yMaxNumericUpDown.Value = new decimal(new int[] {
             2,
@@ -770,13 +832,13 @@ namespace multiplicityDemo
             // 
             // xMaxNumericUpDown
             // 
-            this.xMaxNumericUpDown.DecimalPlaces = 10;
+            this.xMaxNumericUpDown.DecimalPlaces = 19;
             this.xMaxNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             327680});
-            this.xMaxNumericUpDown.Location = new System.Drawing.Point(117, 29);
+            this.xMaxNumericUpDown.Location = new System.Drawing.Point(161, 29);
             this.xMaxNumericUpDown.Maximum = new decimal(new int[] {
             2,
             0,
@@ -788,13 +850,18 @@ namespace multiplicityDemo
             0,
             -2147483648});
             this.xMaxNumericUpDown.Name = "xMaxNumericUpDown";
-            this.xMaxNumericUpDown.Size = new System.Drawing.Size(106, 20);
+            this.xMaxNumericUpDown.Size = new System.Drawing.Size(147, 20);
             this.xMaxNumericUpDown.TabIndex = 0;
             this.xMaxNumericUpDown.Value = new decimal(new int[] {
             2,
             0,
             0,
             0});
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.DefaultExt = "jpg";
+            this.saveFileDialog.Filter = "Image|*.jpg";
             // 
             // MainForm
             // 
@@ -810,6 +877,7 @@ namespace multiplicityDemo
             this.splitContainer1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.saveFileQualityNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.speedNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.startYnumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sizeYNumericUpDown)).EndInit();
@@ -895,6 +963,11 @@ namespace multiplicityDemo
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label comlexModuleLabel;
         private System.Windows.Forms.CheckBox autoStartCheckBox;
+        private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.NumericUpDown saveFileQualityNumericUpDown;
+        private System.Windows.Forms.Label label16;
     }
 }
 

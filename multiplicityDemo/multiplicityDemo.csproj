@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecimalComplex.cs" />
     <Compile Include="ImageWrapper.cs" />
     <Compile Include="LSystem2D.cs" />
     <Compile Include="MainForm.cs">

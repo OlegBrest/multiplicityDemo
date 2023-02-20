@@ -190,5 +190,17 @@ namespace multiplicityDemo.Properties {
                 this["SelectedTab"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public decimal SaveFileQuality {
+            get {
+                return ((decimal)(this["SaveFileQuality"]));
+            }
+            set {
+                this["SaveFileQuality"] = value;
+            }
+        }
     }
 }
